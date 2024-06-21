@@ -210,11 +210,11 @@ public class DataExtract {
 				Location l = new Location();
 				
 				TypedQuery<Country> query = em.createQuery("SELECT c FROM Country c where c.country =:libelle", Country.class);
-				query.setParameter("libelle", shootingLocation[shootingLocation.length-1].toLowerCase());
+				query.setParameter("libelle", shootingLocation[0].toLowerCase().toLowerCase());
 				List<Country> countries = query.getResultList();
 				if(countries.isEmpty()) {
 					Country c= new Country();
-					c.setCountry(elements[0].toLowerCase());
+					c.setCountry(shootingLocation[0].toLowerCase());
 					em.persist(c);
 					l.setCountry(c);
 				}
@@ -222,13 +222,13 @@ public class DataExtract {
 					l.setCountry(countries.get(0));
 				}
 				
-				l.setCity(shootingLocation[shootingLocation.length-2].toLowerCase());
+				l.setCity(shootingLocation[1].toLowerCase());
 				
 				if(shootingLocation.length ==4) {
-					l.setAdditionnalAdress(shootingLocation[0]+", " + shootingLocation[1]);
+					l.setAdditionnalAdress(shootingLocation[2]+", " + shootingLocation[3]);
 				}
-				else {
-					l.setAdditionnalAdress(shootingLocation[0]);
+				if(shootingLocation.length ==3) {
+					l.setAdditionnalAdress(shootingLocation[2]);
 				}
 				em.persist(l);
 				m.setShootingLocation(l);
@@ -247,7 +247,7 @@ public class DataExtract {
 					List<Genre> genrebdd = query.getResultList();
 					if(genrebdd.isEmpty()) {
 						Genre gen= new Genre();
-						gen.setName(elements[g].toLowerCase());
+						gen.setName(genres[g].toLowerCase());
 						em.persist(gen);
 						genreAdd.add(gen);
 					}
@@ -266,7 +266,7 @@ public class DataExtract {
 					List<Language> languagebdd = query.getResultList();
 					if(languagebdd.isEmpty()) {
 						Language le= new Language();
-						le.setName(elements[6].toLowerCase());
+						le.setName(elements[7].toLowerCase());
 						em.persist(le);
 						m.setLanguage(le);
 					}
@@ -276,13 +276,37 @@ public class DataExtract {
 					
 				
 			}
+			//gestion Pays
+			if(!(elements[9].equals("") || elements[9].length()>50)) {
+				
+				TypedQuery<Country> query = em.createQuery("SELECT c FROM Country c where c.country =:libelle", Country.class);
+				query.setParameter("libelle", elements[9].toLowerCase().toLowerCase());
+				List<Country> countries = query.getResultList();
+				if(countries.isEmpty()) {
+					Country c= new Country();
+					c.setCountry(elements[9].toLowerCase());
+					em.persist(c);
+					m.setMovieCountry(c);
+				}
+				else {
+					m.setMovieCountry(countries.get(0));
+				}
+					
+				
+			}
 				 
-			
-			m.setReleaseYear(Integer.parseInt(elements[2]));
+			try {
+				m.setReleaseYear(Integer.parseInt(elements[2]));
+				} catch (NumberFormatException e) {
+				    // Gestion de l'erreur de conversion en int
+				    System.err.println("Erreur de conversion en int pour la date : " + elements[2]);  
+				}
 			m.setName(elements[1]);
 			m.setIdImdb(elements[0]);
 			m.setUrl(elements[4]);
-			m.setRating(Double.parseDouble(elements[3]));
+			if(!elements[3].isEmpty()) {
+				m.setRating(Double.parseDouble(elements[3].replace(",",".")));
+			}
 			m.setPlot(elements[8]);
 			em.persist(m);   
 		}
@@ -298,10 +322,10 @@ public class DataExtract {
 					String[] elements = castingLines.get(i).split(";", -1);
 					
 						
-						TypedQuery<Movie> query = em.createQuery("SELECT m FROM Movie m where m.id_imdb =:libelle", Movie.class);
+						TypedQuery<Movie> query = em.createQuery("SELECT m FROM Movie m where m.idImdb =:libelle", Movie.class);
 						query.setParameter("libelle", elements[0]);
 						List<Movie> movie = query.getResultList();
-						TypedQuery<Actor> queryActor = em.createQuery("SELECT a FROM Actor a where a.id_imdb =:libelle", Actor.class);
+						TypedQuery<Actor> queryActor = em.createQuery("SELECT a FROM Actor a where a.idImdb =:libelle", Actor.class);
 						queryActor.setParameter("libelle", elements[1]);
 						List<Actor> actor = queryActor.getResultList();
 						if(!movie.isEmpty() && !actor.isEmpty()) {
@@ -323,10 +347,10 @@ public class DataExtract {
 					String[] elements = filmRealLines.get(i).split(";", -1);
 					
 						
-						TypedQuery<Movie> query = em.createQuery("SELECT m FROM Movie m where m.id_imdb =:libelle", Movie.class);
+						TypedQuery<Movie> query = em.createQuery("SELECT m FROM Movie m where m.idImdb =:libelle", Movie.class);
 						query.setParameter("libelle", elements[0]);
 						List<Movie> movie = query.getResultList();
-						TypedQuery<Director> queryDirector = em.createQuery("SELECT d FROM director d where d.id_imdb =:libelle", Director.class);
+						TypedQuery<Director> queryDirector = em.createQuery("SELECT d FROM Director d where d.idImdb =:libelle", Director.class);
 						queryDirector.setParameter("libelle", elements[1]);
 						List<Director> director = queryDirector.getResultList();
 						if(!movie.isEmpty() && !director.isEmpty()) {
@@ -345,10 +369,10 @@ public class DataExtract {
 					r.setCharacterName(elements[2]);
 					
 						
-						TypedQuery<Movie> query = em.createQuery("SELECT m FROM Movie m where m.id_imdb =:libelle", Movie.class);
+						TypedQuery<Movie> query = em.createQuery("SELECT m FROM Movie m where m.idImdb =:libelle", Movie.class);
 						query.setParameter("libelle", elements[0]);
 						List<Movie> movie = query.getResultList();
-						TypedQuery<Actor> queryActor = em.createQuery("SELECT a FROM actor a where a.id_imdb =:libelle", Actor.class);
+						TypedQuery<Actor> queryActor = em.createQuery("SELECT a FROM actor a where a.idImdb =:libelle", Actor.class);
 						queryActor.setParameter("libelle", elements[1]);
 						List<Actor> actor = queryActor.getResultList();
 						if(!movie.isEmpty() && !actor.isEmpty()) {

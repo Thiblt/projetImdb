@@ -21,11 +21,11 @@ public class Movie {
 	private int id;
 	@Column(name = "name", length = 255, nullable = false)
 	private String name;
-	@Column(name = "url", length = 255, nullable = false, unique = true)
+	@Column(name = "url", length = 255, nullable = false)
 	private String url;
 	@Column(name = "release_year")
 	private int releaseYear;
-	@Column(name = "id_imdb", length = 50, nullable = false, unique = true)
+	@Column(name = "id_imdb", length = 50, nullable = false)
 	private String idImdb;
 	private double rating;
 	@Column(length = 1000)
