@@ -23,6 +23,8 @@ public class Role {
 	@JoinColumn(name="movie_id")
 	private Movie movie;
 	
+	
+	
 	public Role(String characterName) {
 		this.characterName = characterName;
 	}
@@ -51,6 +53,8 @@ public class Role {
 	public void setMovie(Movie movie) {
 		this.movie = movie;
 	}
+	
+	
 
 	
 }

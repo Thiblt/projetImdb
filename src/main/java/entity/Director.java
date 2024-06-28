@@ -25,11 +25,11 @@ public class Director extends Person{
 		super(idImdb, identity, birthDate, url);
 	}
 
-	public Location getBirthLocationDirector() {
+	public Location getBirthLocation() {
 		return birthLocationDirector;
 	}
 
-	public void setBirthLocationDirector(Location birthLocationDirector) {
+	public void setBirthLocation(Location birthLocationDirector) {
 		this.birthLocationDirector = birthLocationDirector;
 	}
 

@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 
+
 @MappedSuperclass
 public class Person {
 	@Id
@@ -17,6 +18,7 @@ public class Person {
 	private String identity;
 	private LocalDate birthDate;
 	private String url;
+	
 	
 	public Person() {
 	} 
@@ -67,7 +69,7 @@ public class Person {
 
 	public void setUrl(String url) {
 		this.url = url;
-	} 
+	}
 	
 	
 

@@ -43,11 +43,11 @@ public class Actor extends Person{
 		this.height = height;
 	}
 
-	public Location getBirthLocationActor() {
+	public Location getBirthLocation() {
 		return birthLocationActor;
 	}
 
-	public void setBirthLocationActor(Location birthLocationActor) {
+	public void setBirthLocation(Location birthLocationActor) {
 		this.birthLocationActor = birthLocationActor;
 	}
 
